@@ -15,6 +15,7 @@ export default defineConfig({
   },
   site: 'https://jagapet.com',
   base: '/melayu', 
+  trailingSlash: 'always',
   outDir: 'dist',
   integrations: [sitemap(), pagefind()],
 });
