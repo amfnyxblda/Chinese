@@ -3,8 +3,7 @@ const CATEGORY_SLUG_ALIASES: Record<string, string> = {
 };
 
 const CATEGORY_LABEL_OVERRIDES: Record<string, string> = {
-  "exercise-and-fitness": "Exercise & Fitness",
-  "nutrition-and-diet": "Nutrition & Diet",
+
 };
 
 export function canonicalizeCategorySlug(slug: string): string {
@@ -19,7 +18,7 @@ export function formatCategory(slug: string): string {
 
   const words = canonical.split("-");
   const capitalizedWords = words.map((word) => {
-    if (word.toLowerCase() === "and") return "&";
+    if (word.toLowerCase() === "dan") return "&";
     return word.charAt(0).toUpperCase() + word.slice(1);
   });
 

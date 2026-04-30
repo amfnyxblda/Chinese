@@ -1,9 +1,9 @@
 ---
 const navLinks = [
-  { href: "/",                    label: "Home",       num: "01" },
-  { href: "/",                    label: "Articles",   num: "02" },
-  { href: "/search",              label: "Search",     num: "03" },
-  { href: "/contact",             label: "Contact",    num: "04" },
+  { href: "/",                    label: "Laman Utama",       num: "01" },
+  { href: "/",                    label: "Semua Artikel",   num: "02" },
+  { href: "/cari",              label: "Cari Artikel",     num: "03" },
+  { href: "/hubungi",             label: "Hubungi Kami",    num: "04" },
 ];
 
 const languageLinks = [
@@ -14,7 +14,7 @@ const languageLinks = [
 
 const currentPath = Astro.url.pathname;
 const activeLang = languageLinks.find((lang) => {
-  if (lang.code === "English") {
+  if (lang.code === "Melayu") {
     return currentPath === "/" || (!currentPath.startsWith("/melayu") && !currentPath.startsWith("/chinese"));
   }
   return currentPath === lang.href || currentPath.startsWith(`${lang.href}/`);

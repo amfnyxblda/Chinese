@@ -21,12 +21,12 @@ const categories = categorySlugs.map((slug) => ({
         <span class="logo-mark">J</span>agapet
       </a>
       <p class="footer-tagline">
-        Life is better with a little fur on your clothes and a lot of love in your house. Dive into our collection of hacks, reviews, and sanity-saving tips designed to make every day with your pet an adventure.
+        Hidup menjadi lebih bermakna dengan sedikit bulu di baju dan kasih sayang yang melimpah di dalam rumah. Terokai koleksi tip menarik, ulasan, dan panduan praktikal kami yang dirancang untuk menjadikan setiap hari bersama si bulu satu pengembaraan yang menyeronokkan.
       </p>
     </div>
 
     <nav class="footer-nav" aria-label="Footer navigation">
-      <h3 class="footer-nav-title">Categories</h3>
+      <h3 class="footer-nav-title">Kategori</h3>
       <ul class="footer-links">
         {categories.map(cat => (
           <li><a href={cat.href} class="footer-link">{cat.label}</a></li>
@@ -35,10 +35,10 @@ const categories = categorySlugs.map((slug) => ({
     </nav>
 
     <div class="footer-extra">
-      <h3 class="footer-nav-title">Pages</h3>
+      <h3 class="footer-nav-title">Halaman</h3>
       <ul class="footer-links">
-          <li><a href="/"   class="footer-link">All Articles</a></li>
-        <li><a href="/search" class="footer-link">Search</a></li>
+          <li><a href="/"   class="footer-link">Semua artikel</a></li>
+        <li><a href="/search" class="footer-link">Cari artikel</a></li>
       </ul>
     </div>
 
@@ -46,7 +46,7 @@ const categories = categorySlugs.map((slug) => ({
 
   <div class="footer-bottom">
     <div class="container footer-bottom-inner">
-      <p class="footer-copy">© {year} Jagapet. All rights reserved.</p>
+      <p class="footer-copy">© {year} Jagapet. Semua hak cipta terpelihara.</p>
       <!-- <p class="footer-made">Crafted with <a href="https://astro.build" target="_blank" rel="noopener" class="footer-link">Astro</a></p> -->
     </div>
   </div>

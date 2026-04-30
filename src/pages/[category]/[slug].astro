@@ -118,7 +118,7 @@ const articleSchema = {
         {readingTime && (
           <>
             <span class="post-hero-split__dot" aria-hidden="true">·</span>
-            <span>{readingTime} min read</span>
+            <span>{readingTime} minit bacaan</span>
           </>
         )}
       </div>
@@ -134,11 +134,11 @@ const articleSchema = {
           <div>
             <span class="author-name author-name--dark">{author}</span>
             {updatedFormatted && (
-              <span class="post-hero-split__updated">Updated {updatedFormatted}</span>
+              <span class="post-hero-split__updated">Dikemas kini {updatedFormatted}</span>
             )}
           </div>
         </div>
-        <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="Share this article"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>Share</span></button>
+        <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="Kongsikan artikel ini"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>Kongi</span></button>
       </div>
     </div>
   </div>
@@ -167,25 +167,25 @@ const articleSchema = {
         <div>
           <span class="author-name author-name--dark">{author}</span>
           {updatedFormatted && (
-            <span class="post-hero-split__updated">Updated {updatedFormatted}</span>
+            <span class="post-hero-split__updated">Dikemas kini {updatedFormatted}</span>
           )}
         </div>
       </div>
-      <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="Share this article"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>Share</span></button>
+      <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="Kongsikan artikel ini"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>Kongsi</span></button>
     </div>
     <!-- Share / nav row -->
     <div class="post-nav">
-      <a href="/" class="post-nav__back">⟵ All articles</a>
+      <a href="/" class="post-nav__back">⟵ Semua artikel</a>
       <a href={`/${category}`} class="post-nav__category">
-        More in {categoryLabel} ⟶
+        Lebih lanjut dalam {categoryLabel} ⟶
       </a>
     </div>
     <RemoteMessageForm
-      title="Leave a Comment"
-      intro="Drop your feedback, questions, or ideas. We read every comment."
-      submitLabel="Post Comment"
+      title="Tinggalkan Komen"
+      intro="Kemukakan maklum balas, soalan atau idea anda. Kami membaca setiap komen."
+      submitLabel="Siarkan Komen"
       source="article-comment"
-      successMessage="Success. Your comment has been received."
+      successMessage="Berjaya. Komen anda telah diterima."
     />
   </div>
 

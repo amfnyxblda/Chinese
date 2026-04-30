@@ -10,8 +10,8 @@ const pageUrl = Astro.url.href;
 const searchSchema = {
   "@context": "https://schema.org",
   "@type": "SearchResultsPage",
-  name: "Search - Jagapet",
-  description: "Search all Jagapet articles.",
+  name: "Cari - Jagapet",
+  description: "Cari semua artikel Jagapet",
   url: pageUrl,
   isPartOf: {
     "@type": "WebSite",
@@ -20,22 +20,22 @@ const searchSchema = {
   },
   about: {
     "@type": "Thing",
-    name: "Pet Care Articles",
+    name: "Artikel Penjagaan Haiwan Peliharaan",
   },
 };
 ---
 
 <BaseLayout
-  title="Search"
-  description="Search all articles on Meridian - find essays on technology, exercise & fitness, food, travel, environment, and health."
+  title="Cari"
+  description="Cari semua artikel di Jagapet."
 >
   <script type="application/ld+json" set:html={JSON.stringify(searchSchema)} />
   <div class="search-header">
     <div class="container">
-      <span class="page-kicker">Find anything</span>
-      <h1 class="page-title">Search</h1>
+      <span class="page-kicker">Cari apa sahaja</span>
+      <h1 class="page-title">Cari</h1>
       <p class="page-desc">
-        Full-text search across all Meridian articles and essays.
+        Cari semua artikel di Jagapet
       </p>
     </div>
   </div>
@@ -44,7 +44,7 @@ const searchSchema = {
     <div id="search" class="search-widget"></div>
 
     <div class="search-tips">
-      <h2 class="tips-title">Browse by category</h2>
+      <h2 class="tips-title">Layari mengikut kategori</h2>
       <div class="tips-grid">
         {categories.map((category) => (
           <a href={`/${category}`} class="tip-card">
