@@ -14,7 +14,7 @@ export default defineConfig({
       },
   },
   site: 'https://jagapet.com',
-  //base: '/', 
+  base: '/melayu', 
   outDir: 'dist',
   integrations: [sitemap(), pagefind()],
 });
