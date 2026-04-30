@@ -15,7 +15,7 @@ const languageLinks = [
 const currentPath = Astro.url.pathname;
 const activeLang = languageLinks.find((lang) => {
   if (lang.code === "Melayu") {
-    return currentPath === "/" || (!currentPath.startsWith("/melayu") && !currentPath.startsWith("/chinese"));
+    return currentPath === "/melayu" || (!currentPath.startsWith("/") && !currentPath.startsWith("/chinese"));
   }
   return currentPath === lang.href || currentPath.startsWith(`${lang.href}/`);
 })?.code ?? "en";
