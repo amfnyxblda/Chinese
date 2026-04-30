@@ -23,6 +23,13 @@ const post = Astro.props;
 const { category, slug } = Astro.params; // Get category from URL
 const { Content } = await render(post);
 const categoryLabel = formatCategory(category);
+const withBase = (path: string) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalizedPath}` || "/";
+};
+const categoryHref = withBase(`/${category}`);
+const allArticlesHref = withBase("/");
 
 // 1. Fetch Related Posts
 const allPosts = await getCollection('blog');
@@ -112,7 +119,7 @@ const articleSchema = {
 
     <div class="post-hero-split__content container--narrow">
       <div class="post-hero-split__meta">
-        <a href={`/${category}`} class="tag tag--accent">{categoryLabel}</a>
+        <a href={categoryHref} class="tag tag--accent">{categoryLabel}</a>
         <span class="post-hero-split__dot" aria-hidden="true">·</span>
         <time datetime={pubDate.toISOString()}>{formattedDate}</time>
         {readingTime && (
@@ -175,8 +182,8 @@ const articleSchema = {
     </div>
     <!-- Share / nav row -->
     <div class="post-nav">
-      <a href="/" class="post-nav__back">⟵ Semua artikel</a>
-      <a href={`/${category}`} class="post-nav__category">
+      <a href={allArticlesHref} class="post-nav__back">⟵ Semua artikel</a>
+      <a href={categoryHref} class="post-nav__category">
         Lebih lanjut dalam {categoryLabel} ⟶
       </a>
     </div>
@@ -552,5 +559,7 @@ const articleSchema = {
   gap: var(--space-lg);
 }
 </style>
+
+
 
 

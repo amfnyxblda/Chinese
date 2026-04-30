@@ -30,9 +30,14 @@ export async function getStaticPaths() {
 const allPosts = await getCollection('blog');
 const allCategories = allPosts.map((post) => canonicalizeCategorySlug(post.id.split('/')[0]));
 const categories = [...new Set(allCategories)];
+const withBase = (path: string) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalizedPath}` || "/";
+};
 const postPath = (postId: string) => {
   const [rawCategory, slug] = postId.split("/");
-  return `/${canonicalizeCategorySlug(rawCategory)}/${slug}`;
+  return withBase(`/${canonicalizeCategorySlug(rawCategory)}/${slug}`);
 };
 
 const { currentPage, totalPages, pagePosts, totalPosts } = Astro.props;
@@ -136,7 +141,7 @@ function timeAgo(date: Date): string {
             return (
               <article class="article-row">
                 <!-- Category label (vertical, left) -->
-                <a href={`/${category}`} class="article-row__cat" aria-label={`Category: ${post.data.category}`}>
+                <a href={withBase(`/${category}`)} class="article-row__cat" aria-label={`Category: ${post.data.category}`}>
                   <span>{formatCategory(category).toUpperCase()}</span>
                 </a>
 
@@ -199,8 +204,8 @@ function timeAgo(date: Date): string {
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          baseUrl="/page"
-          firstPageUrl="/page/1"
+          baseUrl={withBase("/page")}
+          firstPageUrl={withBase("/page/1")}
         />
       </main>
 
@@ -213,7 +218,7 @@ function timeAgo(date: Date): string {
               const count = allPosts.filter((p) => canonicalizeCategorySlug(p.id.split('/')[0]) === cat).length;
               return (
                 <li>
-                  <a href={`/${cat}`} class="sidebar-cat">
+                  <a href={withBase(`/${cat}`)} class="sidebar-cat">
                     <span class="sidebar-cat__name">{formatCategory(cat)}</span>
                     {/* <span class="sidebar-cat__count">{count}</span> */}
                   </a>
