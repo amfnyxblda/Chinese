@@ -102,8 +102,8 @@ const categoryDescriptions: { [key: string]: string } = {
   title={currentPage === 1 ? categoryLabel : `${categoryLabel} - Page ${currentPage}`}
   description={
     currentPage === 1
-      ? `Browse ${categoryLabel} articles on Jagapet.`
-      : `Page ${currentPage} of ${totalPages} for ${categoryLabel} articles on Jagapet.`
+      ? `Layari ${categoryLabel} artikel on Jagapet.`
+      : `Muka Surat ${currentPage} of ${totalPages} untuk ${categoryLabel} artikel on Jagapet.`
   }
 >
   <script type="application/ld+json" set:html={JSON.stringify(categoryPaginationSchema)} />
@@ -113,9 +113,9 @@ const categoryDescriptions: { [key: string]: string } = {
   <div class="cat-header">
     <div class="container">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/" class="breadcrumb__link">Home</a>
+        <a href="/" class="breadcrumb__link">Utama</a>
         <span aria-hidden="true">›</span>
-        <a href="/" class="breadcrumb__link">Articles</a>
+        <a href="/" class="breadcrumb__link">Artikel</a>
         <span aria-hidden="true">›</span>
         <span>{categoryLabel}</span>
       </nav>

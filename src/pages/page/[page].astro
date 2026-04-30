@@ -79,8 +79,8 @@ function timeAgo(date: Date): string {
 }
 ---
 <BaseLayout
-  title={`Articles — Page ${currentPage}`}
-  description={`Page ${currentPage} of ${totalPages} — all articles on Meridian.`}
+  title={`Artikel — Muka surat ${currentPage}`}
+  description={`Muka surat ${currentPage} daripada ${totalPages} — semua artikel on Jagapet.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(paginationSchema)} />
   <div class="blog-page">
@@ -89,16 +89,16 @@ function timeAgo(date: Date): string {
     <div class="cat-header">
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a href="/" class="breadcrumb__link">Home</a>
+          <a href="/" class="breadcrumb__link">Utama</a>
           <span aria-hidden="true">›</span>
-          <a href="/" class="breadcrumb__link">Articles</a>
+          <a href="/" class="breadcrumb__link">Artikel</a>
         </nav>
 
         <div class="cat-header__inner">
           <div>
-            <h1 class="cat-header__title">All Articles</h1>
+            <h1 class="cat-header__title">Semua Artikel</h1>
              <p class="cat-header__desc">
-              The full library of our blog posts. Dive into all topics, from latest trends to in-depth guides.
+              Perpustakaan penuh catatan blog kami. Selami semua topik, daripada trend terkini hingga panduan mendalam.
             </p>
             <!-- <span class="cat-header__count">
               {totalPosts} {totalPosts === 1 ? "article" : "articles"}
