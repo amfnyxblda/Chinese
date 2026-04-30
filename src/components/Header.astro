@@ -8,14 +8,14 @@ const navLinks = [
 
 const languageLinks = [
   { code: "English", href: "/" },
-  { code: "Melayu", href: "/melayu" },
-  { code: "中文", href: "/chinese" },
+  { code: "Melayu", href: "/Melayu" },
+  { code: "中文", href: "/Chinese" },
 ];
 
 const currentPath = Astro.url.pathname;
 const activeLang = languageLinks.find((lang) => {
   if (lang.code === "Melayu") {
-    return currentPath === "/melayu/" || (!currentPath.startsWith("/") && !currentPath.startsWith("/chinese/"));
+    return currentPath === "/Melayu/" || (!currentPath.startsWith("/") && !currentPath.startsWith("/Chinese/"));
   }
   return currentPath === lang.href || currentPath.startsWith(`${lang.href}/`);
 })?.code ?? "en";
