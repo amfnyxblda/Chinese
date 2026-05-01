@@ -74,6 +74,9 @@ const searchSchema = {
         resetStyles: false,
       });
 
+      const searchInput = document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
+      if (searchInput) searchInput.placeholder = "Cari";
+
       const initialQuery = new URLSearchParams(window.location.search).get("q")?.trim();
       if (initialQuery) {
         const applyInitialQuery = () => {
