@@ -12,15 +12,16 @@ const {
   baseUrl,
   firstPageUrl = baseUrl,
 } = Astro.props;
+const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
 
 const prevUrl = currentPage > 1
   ? currentPage === 2
     ? firstPageUrl
-    : `${baseUrl}/${currentPage - 1}`
+    : `${normalizedBaseUrl}/${currentPage - 1}/`
   : null;
 
 const nextUrl = currentPage < totalPages
-  ? `${baseUrl}/${currentPage + 1}`
+  ? `${normalizedBaseUrl}/${currentPage + 1}/`
   : null;
 
 // Build visible page numbers
@@ -48,7 +49,7 @@ for (let i = 1; i <= totalPages; i++) {
       class={`pagination__btn pagination__btn--prev ${!prevUrl ? "pagination__btn--disabled" : ""}`}
       aria-disabled={!prevUrl}
     >
-      ← Balik
+      ← 上一页
     </a>
 
     <div class="pagination__pages">
@@ -57,7 +58,7 @@ for (let i = 1; i <= totalPages; i++) {
           <span class="pagination__ellipsis">…</span>
         ) : (
           <a
-            href={p === 1 ? firstPageUrl : `${baseUrl}/${p}`}
+            href={p === 1 ? firstPageUrl : `${normalizedBaseUrl}/${p}/`}
             class={`pagination__page ${p === currentPage ? "pagination__page--active" : ""}`}
             aria-current={p === currentPage ? "page" : undefined}
           >
@@ -72,7 +73,7 @@ for (let i = 1; i <= totalPages; i++) {
       class={`pagination__btn pagination__btn--next ${!nextUrl ? "pagination__btn--disabled" : ""}`}
       aria-disabled={!nextUrl}
     >
-      Depan →
+      下一页 →
     </a>
   </nav>
 )}

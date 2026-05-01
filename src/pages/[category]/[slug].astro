@@ -26,7 +26,14 @@ const categoryLabel = formatCategory(category);
 const withBase = (path: string) => {
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalizedPath}` || "/";
+  const needsTrailingSlash =
+    normalizedPath !== "/" &&
+    !normalizedPath.endsWith("/") &&
+    !normalizedPath.includes("?") &&
+    !normalizedPath.includes("#") &&
+    !/\.[a-z0-9]+$/i.test(normalizedPath);
+  const routePath = needsTrailingSlash ? `${normalizedPath}/` : normalizedPath;
+  return `${base}${routePath}` || "/";
 };
 const categoryHref = withBase(`/${category}`);
 const allArticlesHref = withBase("/");
@@ -62,14 +69,14 @@ const {
   readingTime,
 } = post.data;
 
-const formattedDate = pubDate.toLocaleDateString("en-US", {
+const formattedDate = pubDate.toLocaleDateString("zh-CN", {
   year: "numeric",
   month: "long",
   day: "numeric",
 });
 
 const updatedFormatted = updatedDate
-  ? updatedDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+  ? updatedDate.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })
   : null;
 const baseUrl = Astro.site?.toString() ?? Astro.url.origin;
 const pageUrl = Astro.url.href;
@@ -125,7 +132,7 @@ const articleSchema = {
         {readingTime && (
           <>
             <span class="post-hero-split__dot" aria-hidden="true">·</span>
-            <span>{readingTime} minit bacaan</span>
+            <span>阅读时间：{readingTime} 分钟</span>
           </>
         )}
       </div>
@@ -145,7 +152,7 @@ const articleSchema = {
             )}
           </div>
         </div>
-        <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="Kongsikan artikel ini"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>Kongi</span></button>
+        <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="分享"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>分享</span></button>
       </div>
     </div>
   </div>
@@ -161,7 +168,7 @@ const articleSchema = {
       <div class="post-tags">
         <span class="post-tags__label">Tagged:</span>
         {tags.map((tag) => (
-          <a href={withBase(`/cari/?q=${encodeURIComponent(tag)}`)} class="tag">{tag.toLowerCase()}</a>
+          <a href={withBase(`/search/?q=${encodeURIComponent(tag)}`)} class="tag">{tag.toLowerCase()}</a>
         ))}
       </div>
     )}
@@ -178,21 +185,21 @@ const articleSchema = {
           )}
         </div>
       </div>
-      <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="Kongsikan artikel ini"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>Kongsi</span></button>
+      <button class="share-btn" type="button" data-share-url={Astro.url.href} aria-label="分享"><svg class="share-btn__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg><span>分享</span></button>
     </div>
     <!-- Share / nav row -->
     <div class="post-nav">
-      <a href={allArticlesHref} class="post-nav__back">⟵ Semua artikel</a>
+      <a href={allArticlesHref} class="post-nav__back">⟵ 全部文章</a>
       <a href={categoryHref} class="post-nav__category">
-        Lebih lanjut dalam {categoryLabel} ⟶
+        更多 {categoryLabel}内容 ⟶
       </a>
     </div>
     <RemoteMessageForm
-      title="Tinggalkan Komen"
-      intro="Kemukakan maklum balas, soalan atau idea anda. Kami membaca setiap komen."
-      submitLabel="Siarkan Komen"
+      title="发表评论"
+      intro="请提交您的反馈、问题或想法。我们会阅读每一条评论。"
+      submitLabel="发表评论"
       source="article-comment"
-      successMessage="Berjaya. Komen anda telah diterima."
+      successMessage="成功。我们已收到您的评论。"
     />
   </div>
 
@@ -559,6 +566,9 @@ const articleSchema = {
   gap: var(--space-lg);
 }
 </style>
+
+
+
 
 
 

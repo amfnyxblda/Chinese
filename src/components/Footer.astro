@@ -6,7 +6,14 @@ const year = new Date().getFullYear();
 const withBase = (path: string) => {
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalizedPath}` || "/";
+  const needsTrailingSlash =
+    normalizedPath !== "/" &&
+    !normalizedPath.endsWith("/") &&
+    !normalizedPath.includes("?") &&
+    !normalizedPath.includes("#") &&
+    !/\.[a-z0-9]+$/i.test(normalizedPath);
+  const routePath = needsTrailingSlash ? `${normalizedPath}/` : normalizedPath;
+  return `${base}${routePath}` || "/";
 };
 
 const posts = await getCollection("blog");
@@ -26,12 +33,12 @@ const categories = categorySlugs.map((slug) => ({
         <span class="logo-mark">J</span>agapet
       </a>
       <p class="footer-tagline">
-        Hidup menjadi lebih bermakna dengan sedikit bulu di baju dan kasih sayang yang melimpah di dalam rumah. Terokai koleksi tip menarik, ulasan, dan panduan praktikal kami yang dirancang untuk menjadikan setiap hari bersama si bulu satu pengembaraan yang menyeronokkan.
+        衣服上有点毛发，家里充满爱，生活会更美好。探索我们精心整理的技巧、评测和拯救理智的小贴士，让与宠物共度的每一天都变成一场冒险。
       </p>
     </div>
 
     <nav class="footer-nav" aria-label="Footer navigation">
-      <h3 class="footer-nav-title">Kategori</h3>
+      <h3 class="footer-nav-title">类别</h3>
       <ul class="footer-links">
         {categories.map(cat => (
           <li><a href={cat.href} class="footer-link">{cat.label}</a></li>
@@ -40,10 +47,10 @@ const categories = categorySlugs.map((slug) => ({
     </nav>
 
     <div class="footer-extra">
-      <h3 class="footer-nav-title">Halaman</h3>
+      <h3 class="footer-nav-title">页面</h3>
       <ul class="footer-links">
-          <li><a href={withBase("/")}   class="footer-link">Semua artikel</a></li>
-        <li><a href={withBase("/cari")} class="footer-link">Cari artikel</a></li>
+          <li><a href={withBase("/")}   class="footer-link">全部文章</a></li>
+        <li><a href={withBase("/search")} class="footer-link">搜寻文章</a></li>
       </ul>
     </div>
 
@@ -51,7 +58,7 @@ const categories = categorySlugs.map((slug) => ({
 
   <div class="footer-bottom">
     <div class="container footer-bottom-inner">
-      <p class="footer-copy">© {year} Jagapet. Semua hak cipta terpelihara.</p>
+      <p class="footer-copy">© {year} Jagapet. 版权所有。</p>
       <!-- <p class="footer-made">Crafted with <a href="https://astro.build" target="_blank" rel="noopener" class="footer-link">Astro</a></p> -->
     </div>
   </div>
@@ -145,5 +152,10 @@ const categories = categorySlugs.map((slug) => ({
   .footer-bottom-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
 }
 </style>
+
+
+
+
+
 
 

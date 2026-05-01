@@ -2,7 +2,14 @@
 const withBase = (path: string) => {
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalizedPath}` || "/";
+  const needsTrailingSlash =
+    normalizedPath !== "/" &&
+    !normalizedPath.endsWith("/") &&
+    !normalizedPath.includes("?") &&
+    !normalizedPath.includes("#") &&
+    !/\.[a-z0-9]+$/i.test(normalizedPath);
+  const routePath = needsTrailingSlash ? `${normalizedPath}/` : normalizedPath;
+  return `${base}${routePath}` || "/";
 };
 const heroImageUrl = withBase("/hero1.jpg");
 // Hero — clean white layout matching screenshot 1
@@ -14,15 +21,15 @@ const heroImageUrl = withBase("/hero1.jpg");
     <!-- Left: text -->
     <div class="hero__text">
       <h1 id="hero-title" class="hero__title">
-        Panduan <strong>"Paw-sitive"</strong> untuk Penjagaan Haiwan Kesayangan Anda
+        照顾<strong>宠物</strong>的积极指南
       </h1>
 
       <p class="hero__subtitle">
-        Hidup menjadi lebih bermakna dengan sedikit bulu di baju dan kasih sayang yang melimpah di dalam rumah. Terokai koleksi tip menarik, ulasan, dan panduan praktikal kami yang dirancang untuk menjadikan setiap hari bersama si bulu satu pengembaraan yang menyeronokkan.
+        衣服上有点毛发，家里充满爱，生活会更美好。探索我们精心整理的技巧、评测和拯救理智的小贴士，让与宠物共度的每一天都变成一场冒险。
       </p>
 
     <a href={withBase("/#latest-articles")} class="hero__cta-btn">
-        Baca artikel
+        阅读
         <span class="hero__cta-arrow" aria-hidden="true">&#x2197;</span>
       </a>
     </div>
@@ -191,6 +198,9 @@ const heroImageUrl = withBase("/hero1.jpg");
   .hero__inner { padding: 2.5rem 1.25rem 1.5rem; }
 }
 </style>
+
+
+
 
 
 

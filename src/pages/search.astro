@@ -5,7 +5,14 @@ import { canonicalizeCategorySlug, formatCategory } from "../lib/utils";
 const withBase = (path: string) => {
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalizedPath}` || "/";
+  const needsTrailingSlash =
+    normalizedPath !== "/" &&
+    !normalizedPath.endsWith("/") &&
+    !normalizedPath.includes("?") &&
+    !normalizedPath.includes("#") &&
+    !/\.[a-z0-9]+$/i.test(normalizedPath);
+  const routePath = needsTrailingSlash ? `${normalizedPath}/` : normalizedPath;
+  return `${base}${routePath}` || "/";
 };
 
 const posts = await getCollection("blog");
@@ -37,10 +44,10 @@ const searchSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(searchSchema)} />
   <div class="search-header">
     <div class="container">
-      <span class="page-kicker">Cari apa sahaja</span>
-      <h1 class="page-title">Cari</h1>
+      <!-- <span class="page-kicker">找文章</span> -->
+      <h1 style="margin-top: 30px" class="page-title">搜寻</h1>
       <p class="page-desc">
-        Cari semua artikel di Jagapet
+        对 Jagapet 的所有文章和论文进行全文搜索
       </p>
     </div>
   </div>
@@ -49,7 +56,7 @@ const searchSchema = {
     <div id="search" class="search-widget"></div>
 
     <div class="search-tips">
-      <h2 class="tips-title">Layari mengikut kategori</h2>
+      <h2 class="tips-title">按类别浏览</h2>
       <div class="tips-grid">
         {categories.map((category) => (
           <a href={withBase(`/${category}`)} class="tip-card">
@@ -75,7 +82,7 @@ const searchSchema = {
       });
 
       const searchInput = document.querySelector<HTMLInputElement>("#search .pagefind-ui__search-input");
-      if (searchInput) searchInput.placeholder = "Cari";
+      if (searchInput) searchInput.placeholder = "搜寻";
 
       const initialQuery = new URLSearchParams(window.location.search).get("q")?.trim();
       if (initialQuery) {
@@ -241,3 +248,6 @@ const searchSchema = {
   color: var(--color-ink-2);
 }
 </style>
+
+
+

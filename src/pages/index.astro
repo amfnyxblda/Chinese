@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from "../components/Hero.astro";
 import Pagination from "../components/Pagination.astro";
+import Sidebar from "../components/Sidebar.astro";
 import { canonicalizeCategorySlug, formatCategory } from "../lib/utils";
 
 export const POSTS_PER_PAGE = 3;
@@ -16,7 +17,14 @@ const categories = [...new Set(allCategories)];
 const withBase = (path: string) => {
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalizedPath}` || "/";
+  const needsTrailingSlash =
+    normalizedPath !== "/" &&
+    !normalizedPath.endsWith("/") &&
+    !normalizedPath.includes("?") &&
+    !normalizedPath.includes("#") &&
+    !/\.[a-z0-9]+$/i.test(normalizedPath);
+  const routePath = needsTrailingSlash ? `${normalizedPath}/` : normalizedPath;
+  return `${base}${routePath}` || "/";
 };
 
 const postPath = (postId: string) => {
@@ -70,20 +78,20 @@ function timeAgo(date: Date): string {
   if (hours < 1)  return "Just now";
   if (hours < 24) return `${hours} hr${hours > 1 ? "s" : ""} ago`;
   if (days < 7)   return `${days} day${days > 1 ? "s" : ""} ago`;
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return date.toLocaleDateString("zh-CN", { month: "numeric", day: "numeric" });
 }
 ---
 <BaseLayout
   title="Utama"
   description="Paw-sitive panduan untuk menjaga haiwan peliharaan anda."
 >
-  <!-- ── Hero ──────────────────────────────── -->
+  <!-- -- Hero -------------------------------- -->
   <script type="application/ld+json" set:html={JSON.stringify(indexCollectionSchema)} />
   <Hero />
 
   <div class="blog-page">
 
-    <!-- ── Main layout: list + sidebar ──────────── -->
+    <!-- -- Main layout: list + sidebar ------------ -->
     <div class="blog-layout">
 
       <!-- Article list -->
@@ -127,7 +135,7 @@ function timeAgo(date: Date): string {
                   {post.data.readingTime && (
                       <>
                         <span class="article-row__meta-dot">&#x2022;</span>
-                        <span class="article-row__read-time">{post.data.readingTime} min</span>
+                        <span class="article-row__read-time">{post.data.readingTime} 分钟</span>
                       </>
                     )}
                   </div>
@@ -161,55 +169,24 @@ function timeAgo(date: Date): string {
           })}
         </div>
 
-        <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl={withBase("/page")} />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          baseUrl={withBase("/page")}
+          firstPageUrl={withBase("/page/1")}
+        />
       </main>
-
-      <!-- Sidebar -->
-      <aside class="blog-sidebar">
-        <div class="sidebar-section">
-          <h3 class="sidebar-heading">Categories</h3>
-          <ul class="sidebar-cats">
-            {categories.map((cat) => {
-              const count = allPosts.filter((p) => canonicalizeCategorySlug(p.id.split('/')[0]) === cat).length;
-              return (
-                <li>
-                  <a href={withBase(`/${cat}`)} class="sidebar-cat">
-                    <span class="sidebar-cat__name">{formatCategory(cat)}</span>
-                    {/* <span class="sidebar-cat__count">{count}</span> */}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-       <!--  <div class="sidebar-section">
-          <h3 class="sidebar-heading">Featured</h3>
-          {allPosts.filter((p) => p.data.featured).slice(0, 4).map((post) => (
-            <a href={postPath(post.id)} class="sidebar-featured">
-              {post.data.heroImage && (
-                <img src={post.data.heroImage} alt="" class="sidebar-featured__img" width="60" height="60" loading="lazy" />
-              )}
-              <span class="sidebar-featured__title">{post.data.title}</span>
-            </a>
-          ))}
-        </div> -->
-
-        <div class="sidebar-section">
-          <a href={withBase("/cari")} class="sidebar-search-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            Cari artikel
-          </a>
-        </div>
-      </aside>
+      <Sidebar
+        categories={categories}
+        searchHref={withBase("/search")}
+        categoryHref={(cat) => withBase(`/${cat}`)}
+      />
 
     </div>
   </div>
   
 
-  <!-- ── Newsletter / CTA Banner ────────────── -->
+  <!-- -- Newsletter / CTA Banner -------------- -->
   <!-- <section class="cta-banner">
     <div class="container cta-banner__inner">
       <div class="cta-banner__text">
@@ -237,7 +214,7 @@ function timeAgo(date: Date): string {
 </BaseLayout>
 
 <style>
-/* ── Section layout ──────────────────────────── */
+/* -- Section layout ---------------------------- */
 .section {
   padding: var(--space-3xl) 0;
 }
@@ -284,7 +261,7 @@ function timeAgo(date: Date): string {
 .section-more:hover { color: var(--color-ink); }
 
 
-/* ── CTA / Newsletter banner ─────────────────── */
+/* -- CTA / Newsletter banner ------------------- */
 .cta-banner {
   background: var(--color-ink);
   padding: var(--space-3xl) 0;
@@ -362,4 +339,7 @@ function timeAgo(date: Date): string {
   scroll-margin-top: 110px;
 }
 </style>
+
+
+
 

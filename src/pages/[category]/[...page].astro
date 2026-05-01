@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Pagination from "../../components/Pagination.astro";
+import Sidebar from "../../components/Sidebar.astro";
 import { canonicalizeCategorySlug, formatCategory } from "../../lib/utils";
 
 export const CATEGORY_POSTS_PER_PAGE = 3;
@@ -32,7 +33,14 @@ const categoryLabel = formatCategory(category);
 const withBase = (path: string) => {
   const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${normalizedPath}` || "/";
+  const needsTrailingSlash =
+    normalizedPath !== "/" &&
+    !normalizedPath.endsWith("/") &&
+    !normalizedPath.includes("?") &&
+    !normalizedPath.includes("#") &&
+    !/\.[a-z0-9]+$/i.test(normalizedPath);
+  const routePath = needsTrailingSlash ? `${normalizedPath}/` : normalizedPath;
+  return `${base}${routePath}` || "/";
 };
 
 // Access your posts via page.data
@@ -85,14 +93,14 @@ function timeAgo(date: Date): string {
   if (hours < 1)  return "Just now";
   if (hours < 24) return `${hours} hr${hours > 1 ? "s" : ""} ago`;
   if (days < 7)   return `${days} day${days > 1 ? "s" : ""} ago`;
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return date.toLocaleDateString("zh-CN", { month: "numeric", day: "numeric" });
 }
 
 const categoryDescriptions: { [key: string]: string } = {
   technology:  "Explorations of AI, design, software, and the digital world reshaping everyday life.",
   travel:      "Stories from the road — slow journeys, hidden places, and the art of being elsewhere.",
   food:        "From fermentation to philosophy: how we grow, cook, and eat tells us who we are.",
-  "exercise-and-fitness": "On attention, habits, training, and the choices that shape a healthy life.",
+  "exercise": "On attention, habits, training, and the choices that shape a healthy life.",
   environment: "Cities, ecosystems, and the delicate negotiation between human activity and the natural world.",
   health:      "Evidence-based writing on sleep, medicine, mental health, and the body we inhabit.",
 };
@@ -113,9 +121,9 @@ const categoryDescriptions: { [key: string]: string } = {
   <div class="cat-header">
     <div class="container">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href={withBase("/")} class="breadcrumb__link">Utama</a>
+        <a href={withBase("/")} class="breadcrumb__link">首页</a>
         <span aria-hidden="true">›</span>
-        <a href={withBase("/")} class="breadcrumb__link">Artikel</a>
+        <a href={withBase("/")} class="breadcrumb__link">文章</a>
         <span aria-hidden="true">›</span>
         <span>{categoryLabel}</span>
       </nav>
@@ -124,7 +132,7 @@ const categoryDescriptions: { [key: string]: string } = {
         <div>
           <h1 class="cat-header__title">{categoryLabel}</h1>
           <p class="cat-header__desc">
-            {categoryDescriptions[category] ?? `Semua artikel dalam ${categoryLabel}.`}
+            {categoryDescriptions[category] ?? `${categoryLabel}所有文章.`}
           </p>
           <!-- <span class="cat-header__count">
             {totalPosts} {totalPosts === 1 ? "article" : "articles"}
@@ -144,7 +152,7 @@ const categoryDescriptions: { [key: string]: string } = {
             {formatCategory(cat)}
           </a>
         ))}
-        <a href={withBase("/cari")} class="filter-btn filter-btn--search" aria-label="Search articles">
+        <a href={withBase("/search")} class="filter-btn filter-btn--search" aria-label="Search articles">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
@@ -195,7 +203,7 @@ const categoryDescriptions: { [key: string]: string } = {
                   {post.data.readingTime && (
                       <>
                         <span class="article-row__meta-dot">&#x2022;</span>
-                        <span class="article-row__read-time">{post.data.readingTime} min</span>
+                        <span class="article-row__read-time">{post.data.readingTime} 分钟</span>
                       </>
                     )}
                   </div>
@@ -234,47 +242,11 @@ const categoryDescriptions: { [key: string]: string } = {
           firstPageUrl={withBase(`/${category}`)}
         />
       </main>
-
-      <!-- Sidebar -->
-      <aside class="blog-sidebar">
-        <div class="sidebar-section">
-          <h3 class="sidebar-heading">Categories</h3>
-          <ul class="sidebar-cats">
-            {categories.map((cat) => {
-              const count = allPosts.filter((p) => canonicalizeCategorySlug(p.id.split('/')[0]) === cat).length;
-              return (
-                <li>
-                  <a href={withBase(`/${cat}`)} class="sidebar-cat">
-                    <span class="sidebar-cat__name">{formatCategory(cat)}</span>
-                    {/* <span class="sidebar-cat__count">{count}</span> */}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <!-- <div class="sidebar-section">
-          <h3 class="sidebar-heading">Featured</h3>
-          {allPosts.filter((p) => p.data.featured).slice(0, 4).map((post) => (
-            <a href={postPath(post.id)} class="sidebar-featured">
-              {post.data.heroImage && (
-                <img src={post.data.heroImage} alt="" class="sidebar-featured__img" width="60" height="60" loading="lazy" />
-              )}
-              <span class="sidebar-featured__title">{post.data.title}</span>
-            </a>
-          ))}
-        </div> -->
-
-        <div class="sidebar-section">
-          <a href={withBase("/cari")} class="sidebar-search-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            Cari artikel
-          </a>
-        </div>
-      </aside>
+      <Sidebar
+        categories={categories}
+        searchHref={withBase("/search")}
+        categoryHref={(cat) => withBase(`/${cat}`)}
+      />
 
     </div>
   </div>
@@ -359,4 +331,8 @@ const categoryDescriptions: { [key: string]: string } = {
   .blog-sidebar { position: static; }
 }
 </style>
+
+
+
+
 

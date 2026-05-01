@@ -3,7 +3,21 @@ const CATEGORY_SLUG_ALIASES: Record<string, string> = {
 };
 
 const CATEGORY_LABEL_OVERRIDES: Record<string, string> = {
+  // Current (Malay) category slugs
+  "alam-sekitar-dan-perumahan": "环境与居住",
+  "dandanan": "美容护理",
+  "pemakanan-dan-diet": "营养与饮食",
+  "peringkat-kehidupan": "生命阶段",
+  "perjalanan-dan-logistik": "出行与后勤",
+  "senaman-dan-kecergasan": "运动与健身",
 
+  // English category slugs (keep slug/path unchanged, display Chinese label)
+  "environment-and-housing": "环境与居住",
+  "grooming": "美容护理",
+  "nutrition-and-diet": "营养与饮食",
+  "life-stages": "生命阶段",
+  "travel-and-logistics": "出行与后勤",
+  "exercise-and-fitness": "运动与健身",
 };
 
 export function canonicalizeCategorySlug(slug: string): string {

@@ -24,24 +24,24 @@ const contactSchema = {
 ---
 
 <BaseLayout
-  title="Hubungi"
-  description="Hantarkan mesej kepada kami dan kami akan menghubungi anda semula."
+  title="联系"
+  description="请给我们留言，我们会尽快回复您。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
   <section class="contact-page">
     <div class="container contact-page__inner">
-      <span class="contact-page__kicker">Hubungi kami</span>
-      <h1 class="contact-page__title">Hubungi</h1>
+      <span class="contact-page__kicker">联系我们</span>
+      <h1 class="contact-page__title">联系</h1>
       <p class="contact-page__desc">
-        Ada soalan, cadangan atau idea kerjasama? Hantarkan nota kepada kami.
+       有任何问题、建议或合作想法？请给我们留言。
       </p>
 
       <RemoteMessageForm
-        title="Hantar Mesej"
-        intro="Gunakan borang di bawah dan kami akan membalas secepat mungkin."
-        submitLabel="Hantar Mesej"
+        title="发送消息"
+        intro="请使用下方表格，我们将尽快回复。"
+        submitLabel="发送消息"
         source="contact-page"
-        successMessage="Berjaya. Mesej anda telah diterima."
+        successMessage="成功。您的信息已收到。"
       />
     </div>
   </section>
