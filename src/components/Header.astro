@@ -18,13 +18,7 @@ const languageLinks = [
   { code: "中文", href: withBase("/") },
 ];
 
-const currentPath = Astro.url.pathname;
-const activeLang = languageLinks.find((lang) => {
-  if (lang.code === "Melayu") {
-    return currentPath === withBase("/");
-  }
-  return currentPath === lang.href || currentPath.startsWith(`${lang.href}/`);
-})?.code ?? "en";
+const activeLang = "Melayu";
 ---
 
 <header class="site-header" id="site-header">
@@ -268,5 +262,4 @@ const activeLang = languageLinks.find((lang) => {
   .fs-menu__link-label { font-size: clamp(2.2rem, 11vw, 3.5rem); }
 }
 </style>
-
 

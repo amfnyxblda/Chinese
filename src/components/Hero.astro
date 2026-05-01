@@ -4,6 +4,7 @@ const withBase = (path: string) => {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   return `${base}${normalizedPath}` || "/";
 };
+const heroImageUrl = withBase("/hero1.jpg");
 // Hero — clean white layout matching screenshot 1
 ---
 
@@ -28,7 +29,7 @@ const withBase = (path: string) => {
 
     <!-- Right: hero image -->
     <div class="hero__orb-wrap" aria-hidden="true">
-      <div class="hero__orb"></div>
+      <div class="hero__orb" style={`background-image: url('${heroImageUrl}')`}></div>
     </div>
 
   </div>
@@ -161,7 +162,6 @@ const withBase = (path: string) => {
   width: clamp(280px, 42vw, 520px);
   height: clamp(280px, 42vw, 520px);
   border-radius: 16px;
-  background-image: url("hero1.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
