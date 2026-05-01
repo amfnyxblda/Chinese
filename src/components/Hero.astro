@@ -1,4 +1,9 @@
 ---
+const withBase = (path: string) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalizedPath}` || "/";
+};
 // Hero — clean white layout matching screenshot 1
 ---
 
@@ -15,7 +20,7 @@
         Hidup menjadi lebih bermakna dengan sedikit bulu di baju dan kasih sayang yang melimpah di dalam rumah. Terokai koleksi tip menarik, ulasan, dan panduan praktikal kami yang dirancang untuk menjadikan setiap hari bersama si bulu satu pengembaraan yang menyeronokkan.
       </p>
 
-    <a href="/#latest-articles" class="hero__cta-btn">
+    <a href={withBase("/#latest-articles")} class="hero__cta-btn">
         Baca artikel
         <span class="hero__cta-arrow" aria-hidden="true">&#x2197;</span>
       </a>
@@ -156,7 +161,7 @@
   width: clamp(280px, 42vw, 520px);
   height: clamp(280px, 42vw, 520px);
   border-radius: 16px;
-  background-image: url("/hero1.jpg");
+  background-image: url("hero1.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -186,4 +191,7 @@
   .hero__inner { padding: 2.5rem 1.25rem 1.5rem; }
 }
 </style>
+
+
+
 

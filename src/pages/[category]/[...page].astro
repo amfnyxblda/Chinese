@@ -113,9 +113,9 @@ const categoryDescriptions: { [key: string]: string } = {
   <div class="cat-header">
     <div class="container">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/" class="breadcrumb__link">Utama</a>
+        <a href={withBase("/")} class="breadcrumb__link">Utama</a>
         <span aria-hidden="true">›</span>
-        <a href="/" class="breadcrumb__link">Artikel</a>
+        <a href={withBase("/")} class="breadcrumb__link">Artikel</a>
         <span aria-hidden="true">›</span>
         <span>{categoryLabel}</span>
       </nav>
@@ -135,16 +135,16 @@ const categoryDescriptions: { [key: string]: string } = {
 
       <!-- Other categories -->
       <nav class="cat-filter" aria-label="Other categories">
-        <a href="/page/1" class="filter-btn">All</a>
+        <a href={withBase("/page/1")} class="filter-btn">All</a>
         {categories.map((cat) => (
           <a
-            href={`/${cat.toLowerCase().replace(/\s+/g, "-")}`}
+            href={withBase(`/${cat.toLowerCase().replace(/\s+/g, "-")}`)}
             class={`filter-btn ${cat === category ? "filter-btn--active" : ""}`}
           >
             {formatCategory(cat)}
           </a>
         ))}
-        <a href="/search" class="filter-btn filter-btn--search" aria-label="Search articles">
+        <a href={withBase("/cari")} class="filter-btn filter-btn--search" aria-label="Search articles">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
@@ -267,7 +267,7 @@ const categoryDescriptions: { [key: string]: string } = {
         </div> -->
 
         <div class="sidebar-section">
-          <a href="/search" class="sidebar-search-link">
+          <a href={withBase("/cari")} class="sidebar-search-link">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
@@ -359,3 +359,4 @@ const categoryDescriptions: { [key: string]: string } = {
   .blog-sidebar { position: static; }
 }
 </style>
+

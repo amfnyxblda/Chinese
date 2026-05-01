@@ -1,21 +1,27 @@
 ---
+const withBase = (path: string) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalizedPath}` || "/";
+};
+
 const navLinks = [
-  { href: "/",                    label: "Utama",       num: "01" },
-  { href: "/",                    label: "Artikel",   num: "02" },
-  { href: "/cari",              label: "Cari",     num: "03" },
-  { href: "/hubungi",             label: "Hubungi",    num: "04" },
+  { href: withBase("/"), label: "Utama", num: "01" },
+  { href: withBase("/"), label: "Artikel", num: "02" },
+  { href: withBase("/cari"), label: "Cari", num: "03" },
+  { href: withBase("/hubungi"), label: "Hubungi", num: "04" },
 ];
 
 const languageLinks = [
-  { code: "English", href: "/" },
-  { code: "Melayu", href: "/Melayu/" },
-  { code: "中文", href: "/Chinese/" },
+  { code: "English", href: withBase("/") },
+  { code: "Melayu", href: withBase("/") },
+  { code: "中文", href: withBase("/") },
 ];
 
 const currentPath = Astro.url.pathname;
 const activeLang = languageLinks.find((lang) => {
   if (lang.code === "Melayu") {
-    return currentPath === "/Melayu/" || (!currentPath.startsWith("/") && !currentPath.startsWith("/Chinese/"));
+    return currentPath === withBase("/");
   }
   return currentPath === lang.href || currentPath.startsWith(`${lang.href}/`);
 })?.code ?? "en";
@@ -23,7 +29,7 @@ const activeLang = languageLinks.find((lang) => {
 
 <header class="site-header" id="site-header">
   <div class="header-inner">
-    <a href="/" class="logo" aria-label="Jagapet Home">
+    <a href={withBase("/")} class="logo" aria-label="Jagapet Home">
       <span class="logo-mark">J</span>agapet
     </a>
     <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="fullscreen-menu">
@@ -262,3 +268,5 @@ const activeLang = languageLinks.find((lang) => {
   .fs-menu__link-label { font-size: clamp(2.2rem, 11vw, 3.5rem); }
 }
 </style>
+
+

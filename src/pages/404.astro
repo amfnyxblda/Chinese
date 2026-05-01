@@ -1,5 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const withBase = (path: string) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalizedPath}` || "/";
+};
 ---
 
 <BaseLayout title="404 — Halaman Tidak Ditemui" description="Halaman ini tidak wujud.">
@@ -12,9 +17,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 Mungkin ia hanyalah khabar angin.
       </p>
       <div class="not-found__actions">
-        <a href="/" class="btn btn--primary">Go home</a>
-    <a href="/" class="btn btn--outline">Browse articles</a>
-        <a href="/search" class="btn btn--outline">Search</a>
+        <a href={withBase("/")} class="btn btn--primary">Go home</a>
+    <a href={withBase("/")} class="btn btn--outline">Browse articles</a>
+        <a href={withBase("/cari")} class="btn btn--outline">Search</a>
       </div>
     </div>
   </div>

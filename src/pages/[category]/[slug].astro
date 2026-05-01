@@ -161,7 +161,7 @@ const articleSchema = {
       <div class="post-tags">
         <span class="post-tags__label">Tagged:</span>
         {tags.map((tag) => (
-          <a href={`/search/?q=${encodeURIComponent(tag)}`} class="tag">{tag.toLowerCase()}</a>
+          <a href={withBase(`/cari/?q=${encodeURIComponent(tag)}`)} class="tag">{tag.toLowerCase()}</a>
         ))}
       </div>
     )}

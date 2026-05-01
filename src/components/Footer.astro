@@ -3,12 +3,17 @@ import { getCollection } from "astro:content";
 import { canonicalizeCategorySlug, formatCategory } from "../lib/utils";
 
 const year = new Date().getFullYear();
+const withBase = (path: string) => {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${base}${normalizedPath}` || "/";
+};
 
 const posts = await getCollection("blog");
 const categorySlugs = [...new Set(posts.map((post) => canonicalizeCategorySlug(post.id.split("/")[0])))].sort();
 
 const categories = categorySlugs.map((slug) => ({
-  href: `/${canonicalizeCategorySlug(slug)}`,
+  href: withBase(`/${canonicalizeCategorySlug(slug)}`),
   label: formatCategory(slug),
 }));
 ---
@@ -17,7 +22,7 @@ const categories = categorySlugs.map((slug) => ({
   <div class="container footer-inner">
 
     <div class="footer-brand">
-      <a href="/" class="footer-logo">
+      <a href={withBase("/")} class="footer-logo">
         <span class="logo-mark">J</span>agapet
       </a>
       <p class="footer-tagline">
@@ -37,8 +42,8 @@ const categories = categorySlugs.map((slug) => ({
     <div class="footer-extra">
       <h3 class="footer-nav-title">Halaman</h3>
       <ul class="footer-links">
-          <li><a href="/"   class="footer-link">Semua artikel</a></li>
-        <li><a href="/search" class="footer-link">Cari artikel</a></li>
+          <li><a href={withBase("/")}   class="footer-link">Semua artikel</a></li>
+        <li><a href={withBase("/cari")} class="footer-link">Cari artikel</a></li>
       </ul>
     </div>
 
@@ -140,3 +145,5 @@ const categories = categorySlugs.map((slug) => ({
   .footer-bottom-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
 }
 </style>
+
+
